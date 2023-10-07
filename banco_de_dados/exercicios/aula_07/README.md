@@ -16,8 +16,38 @@ Encontre o preço médio arredondado com 2 casas decimais dos produtos em cada u
 ## Exercício 2
 Busque todas as informações sobre os produtos que nunca foram comprados (inclusive a descrição da categoria e todos os dados do fornecedor).
 ```sql
-SELECT * FROM products
-AND 
+SELECT 
+    products.product_id,
+   	products.product_name,
+    products.description,
+    products.price,
+    categories.category_name,
+    suppliers.supplier_id,
+    suppliers.supplier_name,
+    suppliers.supplier_email,
+    suppliers.supplier_phone,
+    suppliers.supplier_address
+FROM
+    products
+LEFT JOIN
+    categories ON products.category_id = categories.category_id
+LEFT JOIN
+    suppliers ON products.supplier_id = suppliers.supplier_id
+LEFT JOIN
+    order_items ON products.product_id = order_items.product_id
+WHERE
+    order_items.product_id IS NULL
+FROM
+    products
+LEFT JOIN
+    categories ON products.category_id = categories.category_id
+LEFT JOIN
+    suppliers ON products.supplier_id = suppliers.supplier_id
+LEFT JOIN
+    order_items ON products.product_id = order_items.product_id
+WHERE
+    order_items.product_id IS NULL;
+
 
 ```
 ## Exercício 3
