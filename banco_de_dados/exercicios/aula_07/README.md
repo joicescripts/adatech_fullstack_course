@@ -55,7 +55,11 @@ Encontre os top 5 clientes que mais gastaram dinheiro em compras, exibindo o nom
 
 Dica: Formatar como dinheiro pode ser feito assim usando o comando `CAST(xxxxxx AS MONEY)`, como em `SELECT CAST(1000 AS MONEY)`
 ```sql
-
+SELECT CONCAT(customers.first_name,' ', customers.last_name) AS nome , CAST(SUM(orders.total_amount) AS MONEY)  AS gasto_total
+FROM orders JOIN customers ON orders.customer_id = customers.customer_id  
+GROUP BY nome
+ORDER BY gasto_total DESC 
+LIMIT 5 
 ```
 
 
