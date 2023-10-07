@@ -69,76 +69,81 @@ VALUES
 ### Escreva comandos SELECT para os itens abaixo:
 
 #### a) O título, o ano e o diretor de todos os filmes.
-
+```sql
 SELECT titulo, ano, diretor FROM filmes;
+```
 
 #### b) Os filmes de Crime produzidos a partir de 1992.
-
+```sql
 SELECT * FROM filmes WHERE genero = 'Crime' AND ano >= 1992;
- 
+```
 
 #### c) O título e o ano dos filmes com duração maior do que 2 horas.
-
+```sql
 SELECT titulo, ano FROM filmes WHERE duracao_minutos > 120;
-
+```
 
 #### d) O título e a duração das comédias lançadas na década de 90 com pelo menos 1 hora e 20 minutos de duração.
-
+```sql
 SELECT titulo, duracao_minutos FROM filmes WHERE genero = 'Comédia' AND ano BETWEEN 1990 AND 1999 AND duracao_minutos >= 80;
-
+```
 
 #### e) o título, o gênero e o valor do ingresso dos filmes a partir de 2006, mostrando os valores inflacionados em 8,63%.
-
+```sql
 SELECT titulo, genero, valor_ingresso * 1.0863 AS valor_inflacionado FROM filmes WHERE ano >= 2006;
- 
+```
 
 #### f) A quantidade de filmes de ação com ingressos que custam mais do que R$ 20,00.
-
+```sql
 SELECT COUNT(*) AS quantidade FROM filmes WHERE genero = 'Ação' AND valor_ingresso > 20.00;
-
+```
 
 #### g) Os nomes de todos os diretores cadastrados, sem repetir, e em ordem alfabética.
 
+```sql
 SELECT DISTINCT diretor FROM filmes ORDER BY diretor;
-
+```
 &nbsp;
 
 ### Escreva comandos UPDATE para os itens abaixo:
 
 a) aumentar em 10 minutos a duração dos filmes em que participa a atriz Daisy Ridley.
-
+```sql
 UPDATE filmes
 SET duracao_minutos = duracao_minutos + 10
 WHERE atores_principais LIKE '%Daisy Ridley%';
-
+```
 
 b) dar um desconto de 10% para os filmes de ação do ano 2011.
+```sql
 UPDATE filmes
 SET valor_ingresso = valor_ingresso * 0.90
-WHERE genero = 'Ação' AND ano = 2011;
-
+WHERE genero = 'Ação' 
+AND ano = 2011;
+```
 
 c) acrescentar um asterisco (*) no final dos títulos dos filmes com duração menor ou igual a 90 minutos.
-
+```sql
 UPDATE filmes
 SET titulo = CONCAT(titulo, ' *')
 WHERE duracao_minutos <= 90;
-
+```
 
 &nbsp;
 
 ### Escreva comandos DELETE para os itens abaixo:
 
 a) excluir os filmes com valor de ingresso superior a R$ 60,00
-
+```sql
 DELETE FROM filmes
 WHERE valor_ingresso > 60.00;
-
+```
 
 b) excluir os filmes em cujo título aparece a palavra Star Wars ou cujo sobrenome do diretor é Columbus.
-
+```sql
 DELETE FROM filmes
 WHERE titulo ILIKE '%Star Wars%' OR diretor LIKE '% Columbus%';
+```
 
 
 &nbsp;
@@ -147,15 +152,149 @@ WHERE titulo ILIKE '%Star Wars%' OR diretor LIKE '% Columbus%';
 
 Dado o modelo textual/lógico abaixo, escreva os comandos SQL para criar as tabelas, suas restrições e relações quando aplicáveis e insira pelo menos 5 registros em cada uma das tabelas.
 
-    alunos(nome, numero_aluno, tipo_aluno, curso)
+```sql
+    CREATE TABLE alunos
+    (
+        nome VARCHAR(50), 
+        numero_aluno INT NOT NULL, 
+        tipo_aluno INT NOT NULL, 
+        curso VARCHAR(10),
+        CONSTRAINT alunos_pk PRIMARY KEY (numero_aluno)
+    );
 
-    disciplinas(nome_disciplina, numero_disciplina, creditos, departamento)
+    INSERT INTO alunos (nome, numero_aluno, tipo_aluno, curso) 
+    VALUES('Rezende', 9, 1, 'CC');
 
-    turmas(identificacao_turma, numero_disciplina, semestre, ano, professor)
+    INSERT INTO alunos (nome, numero_aluno, tipo_aluno, curso) 
+    VALUES('Martins', 10, 2, 'CC');
 
-    pre_requisitos(numero_disciplina, numero_pre_requisito)
+    INSERT INTO alunos (nome, numero_aluno, tipo_aluno, curso) 
+    VALUES('Sertão', 11, 1, 'CC');
 
-    historico_escolar(numero_aluno, identificacao_turma, nota)
+    INSERT INTO alunos (nome, numero_aluno, tipo_aluno, curso) 
+    VALUES('Campos', 12, 2, 'CC');
+
+    INSERT INTO alunos (nome, numero_aluno, tipo_aluno, curso) 
+    VALUES('Paiva', 13, 1, 'CC');
+
+
+
+    CREATE TABLE disciplinas
+    (
+        numero_disciplina VARCHAR(10),
+        nome_disciplina VARCHAR(50), 
+        creditos INT NOT NULL, 
+        departamento VARCHAR(10),
+         CONSTRAINT disciplina_pk PRIMARY KEY (numero_disciplina)
+    );
+
+    INSERT INTO disciplinas (numero_disciplina, nome_disciplina, creditos, departamento )
+    VALUES('CC1340','Algoritmos e Programação', 5, 'CC' );
+
+    INSERT INTO disciplinas (numero_disciplina, nome_disciplina, creditos, departamento )
+    VALUES('CC1350','Análise e Projeto de Software', 5, 'CC' );
+
+    INSERT INTO disciplinas (numero_disciplina, nome_disciplina, creditos, departamento )
+    VALUES('CC1360','Arquitetura e Organização de Computadores I', 4, 'CC' );
+
+    INSERT INTO disciplinas (numero_disciplina, nome_disciplina, creditos, departamento )
+    VALUES('CC1370','Arquitetura e Organização de Computadores II', 4, 'CC' );
+
+    INSERT INTO disciplinas (numero_disciplina, nome_disciplina, creditos, departamento )
+    VALUES('CC1300','Circuitos Digitais', 3, 'CC' );
+
+
+
+    CREATE TABLE turmas
+    (
+        identificacao_turma INT NOT NULL, 
+        numero_disciplina VARCHAR(10), 
+        semestre VARCHAR(50), 
+        ano INT NOT NULL, 
+        professor VARCHAR(50),
+         CONSTRAINT identificacao_turmas_pk PRIMARY KEY (identificacao_turma),
+         CONSTRAINT turmas_fk foreign key(numero_disciplina) references disciplinas(numero_disciplina)
+    );
+
+    INSERT INTO turmas
+    (identificacao_turma, numero_disciplina, semestre, ano, professor)
+    VALUES(50, 'CC1340', 'Segundo', 2007, 'Cláudio');
+
+    INSERT INTO turmas
+    (identificacao_turma, numero_disciplina, semestre, ano, professor)
+    VALUES(65, 'CC1350', 'Primeiro', 2007, 'Gilberto');
+
+    INSERT INTO turmas
+    (identificacao_turma, numero_disciplina, semestre, ano, professor)
+    VALUES(30, 'CC1360', 'Segundo', 2007, 'Moacir');
+
+    INSERT INTO turmas
+    (identificacao_turma, numero_disciplina, semestre, ano, professor)
+    VALUES(42, 'CC1370', 'Primeiro', 2007, 'Cintia');
+
+    INSERT INTO turmas
+    (identificacao_turma, numero_disciplina, semestre, ano, professor)
+    VALUES(07, 'CC1300', 'Segundo', 2007, 'Bárbara');
+
+
+
+    CREATE TABLE pre_requisitos
+    (
+        numero_disciplina VARCHAR(10), 
+        numero_pre_requisito VARCHAR(10),
+        CONSTRAINT turmas_fk foreign key(numero_disciplina) references disciplinas(numero_disciplina)
+    );
+
+    INSERT INTO pre_requisitos
+    (numero_disciplina, numero_pre_requisito)
+    VALUES('CC1340', 'CC1310');
+
+     INSERT INTO pre_requisitos
+    (numero_disciplina, numero_pre_requisito)
+    VALUES('CC1350', 'CC1340');
+
+     INSERT INTO pre_requisitos
+    (numero_disciplina, numero_pre_requisito)
+    VALUES('CC1360', 'CC1350');
+
+     INSERT INTO pre_requisitos
+    (numero_disciplina, numero_pre_requisito)
+    VALUES('CC1370', 'CC1360');
+
+     INSERT INTO pre_requisitos
+    (numero_disciplina, numero_pre_requisito)
+    VALUES('CC1300', 'CC1370');
+
+
+    CREATE TABLE historico_escolar
+    (
+        numero_aluno INT NOT NULL, 
+        identificacao_turma INT NOT NULL, 
+        nota VARCHAR(1),
+        CONSTRAINT historico_escolar_num_fk foreign key(numero_aluno) references alunos(numero_aluno),
+        CONSTRAINT historico_escolar_id_fk foreign key(identificacao_turma) references turmas(identificacao_turma)
+    );
+
+    INSERT INTO historico_escolar
+    (numero_aluno, identificacao_turma, nota)
+    VALUES(9, 50, 'A');
+
+    INSERT INTO historico_escolar
+    (numero_aluno, identificacao_turma, nota)
+    VALUES(10, 65, 'A');
+
+    INSERT INTO historico_escolar
+    (numero_aluno, identificacao_turma, nota)
+    VALUES(11, 30, 'C');
+
+    INSERT INTO historico_escolar
+    (numero_aluno, identificacao_turma, nota)
+    VALUES(12, 42, 'B');
+
+    INSERT INTO historico_escolar
+    (numero_aluno, identificacao_turma, nota)
+    VALUES(13, 07, 'A');
+```
 
 Feito, isso, execute o comando SQL abaixo, para inserir mais registros
 
@@ -208,27 +347,27 @@ INSERT INTO turmas
 (identificacao_turma, numero_disciplina, semestre, ano, professor)
 VALUES(135, 'CC3380', 'Segundo', 2008, 'Santos');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(17, 112, 'B');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(17, 119, 'C');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(8, 85, 'A');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(8, 92, 'A');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(8, 102, 'B');
 
-INSERT INTO historicos_escolares
+INSERT INTO historico_escolar
 (numero_aluno, identificacao_turma, nota)
 VALUES(8, 135, 'A');
 
@@ -245,17 +384,60 @@ INSERT INTO pre_requisitos
 VALUES('CC3320', 'CC1310');
 ```
 
-Executar as seguintes consultas:
+### Executar as seguintes consultas:
 
-- Recuperar uma lista de todas as disciplinas e notas de Silva.
-- Listar os nomes dos alunos que realizaram a disciplina Banco de dados oferecida no segundo semestre de 2008 e suas notas nessa turma.
-- Listar os pré-requisitos do curso de Banco de dados.
+Recuperar uma lista de todas as disciplinas e notas de Silva.
+
+```sql
+SELECT d.nome_disciplina, he.nota
+FROM alunos a
+JOIN historico_escolar he ON a.numero_aluno = he.numero_aluno
+JOIN turmas t ON he.identificacao_turma = t.identificacao_turma
+JOIN disciplinas d ON t.numero_disciplina = d.numero_disciplina
+WHERE a.nome = 'Silva';
+```
+
+#### Listar os nomes dos alunos que realizaram a disciplina Banco de dados oferecida no segundo semestre de 2008 e suas notas nessa turma.
+```sql
+SELECT a.nome AS nome_aluno, he.nota
+FROM alunos AS a
+JOIN historico_escolar AS he ON a.numero_aluno = he.numero_aluno
+JOIN turmas AS t ON he.identificacao_turma = t.identificacao_turma
+JOIN disciplinas AS d ON t.numero_disciplina = d.numero_disciplina
+WHERE d.nome_disciplina = 'Banco de Dados' 
+  AND t.semestre = 'Segundo' 
+  AND t.ano = 2008;
+```
 
 
-Executar as seguintes atualizações no banco de dados
+#### Listar os pré-requisitos do curso de Banco de dados.
+```sql
+SELECT * FROM pre_requisitos
+WHERE numero_disciplina = 'CC3380';
+```
+### Executar as seguintes atualizações no banco de dados
 
-- Alterar o tipo de aluno de Silva para segundo ano.
-- Criar outra turma para a disciplina Banco de dados para este semestre.
-- Inserir uma nota A para Silva na turma Banco de dados do último semestre.
+#### Alterar o tipo de aluno de Silva para segundo ano.
+```sql
+UPDATE alunos
+SET tipo_aluno = 2
+WHERE nome = 'Silva';
+```
+
+
+#### Criar outra turma para a disciplina Banco de dados para este semestre.
+```sql
+INSERT INTO turmas (identificacao_turma, numero_disciplina, semestre, ano, professor)
+VALUES (NOME_IDENTIFICACAO, 'NUMERO_DISCIPLINA', 'SEMESTRE', ANO, 'PROFESSOR');
+```
+
+
+#### Inserir uma nota A para Silva na turma Banco de dados do último semestre.
+```sql
+UPDATE historico_escolar
+SET nota = 'A'
+WHERE numero_aluno = (SELECT numero_aluno FROM alunos WHERE nome = 'Silva')
+AND identificacao_turma = (SELECT identificacao_turma FROM turmas WHERE numero_disciplina = 'NUMERO_DISCIPLINA' AND semestre = 'SEMESTRE' AND ano = ANO);
+```
 
 &nbsp;
