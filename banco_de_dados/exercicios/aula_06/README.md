@@ -1,3 +1,10 @@
+## Grupo 3 - Participantes
+ - Francieli dos Reis 
+ - Joice Martins 
+ - Laurieny Jayne 
+ - Marlon Souza
+ - Matheus Santos
+
 ## Exercício 1
 
 Dada a tabela abaixo,
@@ -389,24 +396,14 @@ VALUES('CC3320', 'CC1310');
 Recuperar uma lista de todas as disciplinas e notas de Silva.
 
 ```sql
-SELECT d.nome_disciplina, he.nota
-FROM alunos a
-JOIN historico_escolar he ON a.numero_aluno = he.numero_aluno
-JOIN turmas t ON he.identificacao_turma = t.identificacao_turma
-JOIN disciplinas d ON t.numero_disciplina = d.numero_disciplina
-WHERE a.nome = 'Silva';
+SELECT alunos.nome, turmas.numero_disciplina, historico_escolar.identificacao_turma, historico_escolar.nota FROM alunos join historico_escolar on alunos.numero_aluno = historico_escolar.numero_aluno join turmas on historico_escolar.identificacao_turma = turmas.identificacao_turma WHERE alunos.nome = 'Silva';
+
 ```
 
 #### Listar os nomes dos alunos que realizaram a disciplina Banco de dados oferecida no segundo semestre de 2008 e suas notas nessa turma.
 ```sql
-SELECT a.nome AS nome_aluno, he.nota
-FROM alunos AS a
-JOIN historico_escolar AS he ON a.numero_aluno = he.numero_aluno
-JOIN turmas AS t ON he.identificacao_turma = t.identificacao_turma
-JOIN disciplinas AS d ON t.numero_disciplina = d.numero_disciplina
-WHERE d.nome_disciplina = 'Banco de Dados' 
-  AND t.semestre = 'Segundo' 
-  AND t.ano = 2008;
+SELECT alunos.nome, historico_escolar.nota FROM disciplinas JOIN turmas ON turmas.numero_disciplina = disciplinas.numero_disciplina JOIN historico_escolar ON historico_escolar.identificacao_turma = turmas.identificacao_turma join alunos ON alunos.numero_aluno = historico_escolar.numero_aluno WHERE disciplinas.nome_disciplina = 'Banco de dados'AND turmas.ano = 2008 AND turmas.semestre = 'Segundo';
+
 ```
 
 
@@ -427,18 +424,15 @@ WHERE nome = 'Silva';
 
 #### Criar outra turma para a disciplina Banco de dados para este semestre.
 ```sql
-INSERT INTO turmas (identificacao_turma, numero_disciplina, semestre, ano, professor)
-VALUES (NOME_IDENTIFICACAO, 'NUMERO_DISCIPLINA', 'SEMESTRE', ANO, 'PROFESSOR');
+ INSERT INTO turmas (identificacao_turma,numero_disciplina, semestre, ano, professor) VALUES (1002,'CC3380','Segundo', 2024, 'Carlos');
 ```
 
 
 #### Inserir uma nota A para Silva na turma Banco de dados do último semestre.
 ```sql
-UPDATE historico_escolar
-SET nota = 'A'
-WHERE numero_aluno = (SELECT numero_aluno FROM alunos WHERE nome = 'Silva')
-AND identificacao_turma = (SELECT identificacao_turma FROM turmas WHERE numero_disciplina = 'NUMERO_DISCIPLINA' AND semestre = 'SEMESTRE' AND ano = ANO);
+INSERT INTO historicos_escolares (numero_aluno, identificacao_turma, nota) VALUES (17, 145, 'A');
 ```
+
 
 &nbsp;
 

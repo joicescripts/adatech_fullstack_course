@@ -27,3 +27,7 @@ Para cada prova que já foi realizada em um campeonato é registrado o recorde, 
 A cada edição de um campeonato são disputadas diversas provas, divididas em baterias. Cada bateria de uma prova possui um tipo (classificatória, semifinal e final) e é disputada em uma determinada data e hora.
 
 Cada nadador se inscreve em diversas provas de uma edição do campeonato e posteriormente é alocado em uma de suas baterias. Após o término da bateria, é registrado o status do nadador (classificado ou desclassificado), o tempo e o lugar de chegada.
+
+
+### Diagrama
+![diagrama](01.diagrama/image.png)
