@@ -441,3 +441,6 @@ AND identificacao_turma = (SELECT identificacao_turma FROM turmas WHERE numero_d
 ```
 
 &nbsp;
+
+### Diagrama final 
+![Diagrama final](escola.png)
