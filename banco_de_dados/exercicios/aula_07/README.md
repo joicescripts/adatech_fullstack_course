@@ -54,6 +54,8 @@ ORDER BY gasto_total DESC
 LIMIT 5 
 ```
 
+### Diagrama
+![Diagrama](diagrama.png)
 
 
 ## Exercício 4
