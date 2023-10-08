@@ -10,7 +10,9 @@
 ## Exercício 1
 Encontre o preço médio arredondado com 2 casas decimais dos produtos em cada uma das categorias.
 ```sql
-
+SELECT category_id, ROUND(AVG(price), 2) AS media_categorias FROM products
+GROUP BY category_id
+ORDER BY category_id;
 
 ```
 ## Exercício 2
